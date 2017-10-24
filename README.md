@@ -2,6 +2,12 @@
 Simple prototypes of common ML concepts
 
 
+<img src="/plots/FashionMNIST_0_10_1000.png" alt="notMNIST 10 instances" style="width: 200px;"/>
+<img src="/plots/FashionMNIST_0_100_1000.png" alt="notMNIST 100 instances" style="width: 200px;"/>
+<img src="/plots/FashionMNIST_0_1000_20.png" alt="notMNIST 1000 instances" style="width: 200px;"/>
+
+
+
 ![FashionMNIST 10 instances](/plots/FashionMNIST_0_10_1000.png)
 ![FashionMNIST 100 instances](/plots/FashionMNIST_0_100_1000.png)
 ![FashionMNIST 1000 instances](/plots/FashionMNIST_0_1000_20.png)
