@@ -3,8 +3,8 @@ Simple prototypes of common ML concepts
 
 
 <img src="/plots/FashionMNIST_0_10_1000.png" alt="notMNIST 10 instances" style="width: 200px;"/>
-<img src="/plots/FashionMNIST_0_100_1000.png" alt="notMNIST 100 instances" style="width: 200px;"/>
-<img src="/plots/FashionMNIST_0_1000_20.png" alt="notMNIST 1000 instances" style="width: 200px;"/>
+<img src="/plots/FashionMNIST_0_100_1000.png" alt="notMNIST 100 instances" style="width: 50%; height: 50%"/>
+<img src="/plots/FashionMNIST_0_1000_20.png" alt="notMNIST 1000 instances" style="width: 50%; height: 50%"/>
 
 
 
