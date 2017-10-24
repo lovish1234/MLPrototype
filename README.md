@@ -2,9 +2,7 @@
 Simple prototypes of common ML concepts
 
 ### FashionMNIST
-<img src="./plots/FashionMNIST_0_10_1000.png" alt="FashionMNIST 10 instances" width="200px"/>
-<img src="./plots/FashionMNIST_0_100_1000.png" alt="FashionMNIST 100 instances" width="200px"/>
-<img src="./plots/FashionMNIST_0_1000_20.png" alt="FashionMNIST 1000 instances" width="200px"/> 
+<img src="./plots/FashionMNIST_0_10_1000.png" alt="FashionMNIST 10 instances" width="200px"/><img src="./plots/FashionMNIST_0_100_1000.png" alt="FashionMNIST 100 instances" width="200px"/><img src="./plots/FashionMNIST_0_1000_20.png" alt="FashionMNIST 1000 instances" width="200px"/> 
 
 <img src="./plots/FashionMNIST_1_10_1000.png" alt="FashionMNIST 10 instances" width="200px"/>
 <img src="./plots/FashionMNIST_1_100_1000.png" alt="FashionMNIST 100 instances" width="200px"/>
