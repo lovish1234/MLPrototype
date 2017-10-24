@@ -11,7 +11,7 @@ Simple prototypes of common ML concepts
 ![MNIST 1000 instances](/plots/MNIST_1_1000_20.png)
 
 ![notMNIST 10 instances](/plots/notMNIST_2_10_1000.png)
-![notMNIST 100 instances](/plots/notMNIST_2_100_1000.png)
+![notMNIST 100 instances](/plots/notMNIST_2_100_100.png)
 ![notMNIST 1000 instances](/plots/notMNIST_2_1000_20.png)
 
 
