@@ -52,7 +52,13 @@ Source | Target | 10 | 100 | 1000
 :---: | :---: | :---: | :---: | :---: |
 Sneaker | Bag |  <img src="./CycleGAN/results/notMNIST/4_5/notMNIST_4_5_10_10_200_results/AtoB/Test_result_20.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./CycleGAN/results/notMNIST/4_5/notMNIST_4_5_100_100_200_results/AtoB/Test_result_20.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./CycleGAN/results/notMNIST/4_5/notMNIST_4_5_1000_1000_40_results/AtoB/Test_result_20.png" alt="notMNIST 1000 instances" width="200px"/>
 
+### References 
 
+- [MNIST](http://yann.lecun.com/exdb/mnist/)
+- [FashionMNIST](https://github.com/zalandoresearch/fashion-mnist) dataset
+- [notMNIST](https://github.com/davidflanagan/notMNIST-to-MNIST) dataset
+- GAN [Tutorial](https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/02-intermediate/generative_adversarial_network/main.py)
+- CycleGAN [Implementation](https://github.com/togheppi/CycleGAN)
 
 
 
