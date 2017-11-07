@@ -7,26 +7,26 @@ Simple prototypes of common ML concepts
 
 Class | 10 | 100 | 1000
 :---: | :---: | :---: | :---: |
-T-Shirt/Top | <img src="./plots/FashionMNIST/FashionMNIST_0_10_1000.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./plots/FashionMNIST/FashionMNIST_0_100_1000.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./plots/FashionMNIST/FashionMNIST_0_1000_20.png" alt="FashionMNIST 1000 instances" width="200px"/> 
-Trouser | <img src="./plots/FashionMNIST/FashionMNIST_1_10_1000.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./plots/FashionMNIST/FashionMNIST_1_100_1000.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./plots/FashionMNIST/FashionMNIST_1_1000_20.png" alt="FashionMNIST 1000 instances" width="200px"/> 
-Pullover | <img src="./plots/FashionMNIST/FashionMNIST_2_10_1000.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./plots/FashionMNIST/FashionMNIST_2_100_1000.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./plots/FashionMNIST/FashionMNIST_2_1000_20.png" alt="FashionMNIST 1000 instances" width="200px"/>
+T-Shirt/Top | <img src="./DCGAN/plots/FashionMNIST/FashionMNIST_0_10_1000.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./DCGAN/plots/FashionMNIST/FashionMNIST_0_100_1000.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./DCGAN/plots/FashionMNIST/FashionMNIST_0_1000_20.png" alt="FashionMNIST 1000 instances" width="200px"/> 
+Trouser | <img src="./DCGAN/plots/FashionMNIST/FashionMNIST_1_10_1000.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./DCGAN/plots/FashionMNIST/FashionMNIST_1_100_1000.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./DCGAN/plots/FashionMNIST/FashionMNIST_1_1000_20.png" alt="FashionMNIST 1000 instances" width="200px"/> 
+Pullover | <img src="./DCGAN/plots/FashionMNIST/FashionMNIST_2_10_1000.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./DCGAN/plots/FashionMNIST/FashionMNIST_2_100_1000.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./DCGAN/plots/FashionMNIST/FashionMNIST_2_1000_20.png" alt="FashionMNIST 1000 instances" width="200px"/>
 
 
 #### MNIST
 
 Class | 10 | 100 | 1000
 :---: | :---: | :---: | :---: |
-'1' | <img src="./plots/MNIST/MNIST_1_10_1000.png" alt="MNIST 10 instances" width="200px"/> | <img src="./plots/MNIST/MNIST_1_100_100.png" alt="MNIST 100 instances" width="200px"/> | <img src="./plots/MNIST/MNIST_1_1000_20.png" alt="MNIST 1000 instances" width="200px"/>
-'2' | <img src="./plots/MNIST/MNIST_2_10_1000.png" alt="MNIST 10 instances" width="200px"/> | <img src="./plots/MNIST/MNIST_2_100_100.png" alt="MNIST 100 instances" width="200px"/> | <img src="./plots/MNIST/MNIST_2_1000_20.png" alt="MNIST 1000 instances" width="200px"/>
-'3' | <img src="./plots/MNIST/MNIST_3_10_1000.png" alt="MNIST 10 instances" width="200px"/> | <img src="./plots/MNIST/MNIST_3_100_100.png" alt="MNIST 100 instances" width="200px"/> | <img src="./plots/MNIST/MNIST_3_1000_20.png" alt="MNIST 1000 instances" width="200px"/>
+'1' | <img src="./DCGAN/plots/MNIST/MNIST_1_10_1000.png" alt="MNIST 10 instances" width="200px"/> | <img src="./DCGAN/plots/MNIST/MNIST_1_100_100.png" alt="MNIST 100 instances" width="200px"/> | <img src="./DCGAN/plots/MNIST/MNIST_1_1000_20.png" alt="MNIST 1000 instances" width="200px"/>
+'2' | <img src="./DCGAN/plots/MNIST/MNIST_2_10_1000.png" alt="MNIST 10 instances" width="200px"/> | <img src="./DCGAN/plots/MNIST/MNIST_2_100_100.png" alt="MNIST 100 instances" width="200px"/> | <img src="./DCGAN/plots/MNIST/MNIST_2_1000_20.png" alt="MNIST 1000 instances" width="200px"/>
+'3' | <img src="./DCGAN/plots/MNIST/MNIST_3_10_1000.png" alt="MNIST 10 instances" width="200px"/> | <img src="./DCGAN/plots/MNIST/MNIST_3_100_100.png" alt="MNIST 100 instances" width="200px"/> | <img src="./DCGAN/plots/MNIST/MNIST_3_1000_20.png" alt="MNIST 1000 instances" width="200px"/>
 
 
 #### notMNIST
 Class | 10 | 100 | 1000 |
 :---: | :---: | :---: | :---: |
-'B'| <img src="./plots/notMNIST/notMNIST_1_10_1000.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./plots/notMNIST/notMNIST_1_100_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./plots/notMNIST/notMNIST_1_1000_20.png" alt="notMNIST 1000 instances" width="200px"/> 
-'C' | <img src="./plots/notMNIST/notMNIST_2_10_1000.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./plots/notMNIST/notMNIST_2_100_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./plots/notMNIST/notMNIST_2_1000_20.png" alt="notMNIST 1000 instances" width="200px"/> 
-'D' | <img src="./plots/notMNIST/notMNIST_3_10_1000.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./plots/notMNIST/notMNIST_3_100_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./plots/notMNIST/notMNIST_3_1000_20.png" alt="notMNIST 1000 instances" width="200px"/> 
+'B'| <img src="./DCGAN/plots/notMNIST/notMNIST_1_10_1000.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./DCGAN/plots/notMNIST/notMNIST_1_100_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./DCGAN/plots/notMNIST/notMNIST_1_1000_20.png" alt="notMNIST 1000 instances" width="200px"/> 
+'C' | <img src="./DCGAN/plots/notMNIST/notMNIST_2_10_1000.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./DCGAN/plots/notMNIST/notMNIST_2_100_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./DCGAN/plots/notMNIST/notMNIST_2_1000_20.png" alt="notMNIST 1000 instances" width="200px"/> 
+'D' | <img src="./DCGAN/plots/notMNIST/notMNIST_3_10_1000.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./DCGAN/plots/notMNIST/notMNIST_3_100_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./DCGAN/plots/notMNIST/notMNIST_3_1000_20.png" alt="notMNIST 1000 instances" width="200px"/> 
 
 
 ### Effect of number of Instances of Target Domain on Cycle GAN 
