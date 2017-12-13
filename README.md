@@ -58,23 +58,23 @@ Sneaker | Bag |  <img src="./CycleGAN/results/notMNIST/4_5/notMNIST_4_5_10_10_20
 
 Train Dataset | Test Dataset | 10 | 100 | 1000
 :---: | :---: | :---: | :---: | :---: |
-Fake | Real | <img src="./Evaluate/plots/cm/MNIST/MNIST_fake_10.png" alt="MNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/MNIST/MNIST_fake_100.png" alt="MNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/MNIST/MNIST_fake_1000.png" alt="MNIST 100 instances" width="200px"/>
-Fake | Real | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_fake_10.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_fake_100.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_fake_1000.png" alt="FashionMNIST 1000 instances" width="200px"/>
-Fake | Real | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_fake_10.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_fake_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_fake_1000.png" alt="notMNIST 100 instances" width="200px"/>
-Real | Real | <img src="./Evaluate/plots/cm/MNIST/MNIST_real_10.png" alt="MNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/MNIST/MNIST_real_100.png" alt="MNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/MNIST/MNIST_real_1000.png" alt="MNIST 100 instances" width="200px"/>
-Real | Real | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_real_10.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_real_100.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_real_1000.png" alt="FashionMNIST 1000 instances" width="200px"/>
-Real | Real | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_real_10.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_real_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_real_1000.png" alt="notMNIST 100 instances" width="200px"/>
+MNIST GAN | MNIST Real | <img src="./Evaluate/plots/cm/MNIST/MNIST_fake_10.png" alt="MNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/MNIST/MNIST_fake_100.png" alt="MNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/MNIST/MNIST_fake_1000.png" alt="MNIST 100 instances" width="200px"/>
+FashionMNIST GAN  | FashionMNIST Real | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_fake_10.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_fake_100.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_fake_1000.png" alt="FashionMNIST 1000 instances" width="200px"/>
+notMNIST GAN  | notMNIST Real | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_fake_10.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_fake_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_fake_1000.png" alt="notMNIST 100 instances" width="200px"/>
+MNIST Real | MNIST Real | <img src="./Evaluate/plots/cm/MNIST/MNIST_real_10.png" alt="MNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/MNIST/MNIST_real_100.png" alt="MNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/MNIST/MNIST_real_1000.png" alt="MNIST 100 instances" width="200px"/>
+FashionMNIST Real | FashionMNIST Real | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_real_10.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_real_100.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_real_1000.png" alt="FashionMNIST 1000 instances" width="200px"/>
+notMNIST Real | notMNIST Real | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_real_10.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_real_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_real_1000.png" alt="notMNIST 100 instances" width="200px"/>
 
 #### Accuracy 
 
 Train Dataset | Test Dataset | Accuracy
 :---: | :---: | :---:
-Fake | Real | <img src="./Evaluate/plots/accuracy/MNIST/MNIST_fake_real.png" alt="MNIST" width="200px"/>
-Fake | Real | <img src="./Evaluate/plots/accuracy/FashionMNIST/FashionMNIST_fake_real.png" alt="FashionMNIST" width="200px"/> 
-Fake | Real | <img src="./Evaluate/plots/accuracy/notMNIST/notMNIST_fake_real.png" alt="notMNIST" width="200px"/> 
-Real | Real | <img src="./Evaluate/plots/accuracy/MNIST/MNIST_real_real.png" alt="MNIST" width="200px"/>
-Real | Real | <img src="./Evaluate/plots/accuracy/FashionMNIST/FashionMNIST_real_real.png" alt="FashionMNIST" width="200px"/> 
-Real | Real | <img src="./Evaluate/plots/accuracy/notMNIST/notMNIST_real_real.png" alt="notMNIST" width="200px"/> 
+MNIST GAN | MNIST Real | <img src="./Evaluate/plots/accuracy/MNIST/MNIST_fake_real.png" alt="MNIST" width="200px"/>
+FashionMNIST GAN  | FashionMNIST Real | <img src="./Evaluate/plots/accuracy/FashionMNIST/FashionMNIST_fake_real.png" alt="FashionMNIST" width="200px"/> 
+notMNIST GAN  | notMNIST Real | <img src="./Evaluate/plots/accuracy/notMNIST/notMNIST_fake_real.png" alt="notMNIST" width="200px"/> 
+MNIST Real | MNIST Real | <img src="./Evaluate/plots/accuracy/MNIST/MNIST_real_real.png" alt="MNIST" width="200px"/>
+FashionMNIST Real | FashionMNIST Real| <img src="./Evaluate/plots/accuracy/FashionMNIST/FashionMNIST_real_real.png" alt="FashionMNIST" width="200px"/> 
+notMNIST Real | notMNIST Real | <img src="./Evaluate/plots/accuracy/notMNIST/notMNIST_real_real.png" alt="notMNIST" width="200px"/> 
 
 
 ### References 
