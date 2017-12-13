@@ -68,6 +68,7 @@ Real | Real | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_real_10.png" alt="
 #### Accuracy 
 
 Train Dataset | Test Dataset | Accuracy
+:---: | :---: | :---:
 Fake | Real | <img src="./Evaluate/plots/accuracy/MNIST/MNIST_fake_real.png" alt="MNIST" width="200px"/>
 Fake | Real | <img src="./Evaluate/plots/accuracy/FashionMNIST/FashionMNIST_fake_real.png" alt="FashionMNIST" width="200px"/> 
 Fake | Real | <img src="./Evaluate/plots/accuracy/notMNIST/notMNIST_fake_real.png" alt="notMNIST" width="200px"/> 
