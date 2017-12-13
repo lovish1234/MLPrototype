@@ -14,20 +14,31 @@ import torch.optim as optim
 # automatic differenciation of variables
 from torch.autograd import Variable
 
-# plotting the loss function wrt epochs
+
+#plotting the graphs
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-# used to load and transform popular CV datasets
-import torchvision
-import torchvision.transforms as transforms 
+# generator and discriminator models
+from model import Generator, Discriminator
+
+# to save and load numpy arrays
+from os import fsync
+from numpy import save as np_save
+import numpy as np
+
+
+# to parse uint format
+import os
+import struct
 import argparse
 
-import random
-from skimage import transform
+# to resize the image
+import PIL
+import PIL.Image
+from cStringIO import StringIO
 
-from model import Generator, Discriminator
 
 parser = argparse.ArgumentParser()
 
@@ -38,27 +49,28 @@ parser.add_argument('--numOfGPU', required=False, default=1, type=int, help='num
 
 parser.add_argument('--imageSize', required=False, default=28, type=int,
 help='image size')
-parser.add_argument('--batchSize', type=int, default=5, help='train batch size')
+parser.add_argument('--batchSize', type=int, default=1, help='train batch size')
 
 
 # number of channels in input/output eg. Greyscale,1 or RGB,3 or RGBD,4
-parser.add_argument('--numInputChannels', type=int, default=1, help='number of input channels')
+parser.add_argument('--numInputChannels', type=int, default=10, help='number of input channels')
 parser.add_argument('--numOutputChannels', type=int, default=1, help='number of output channels')
 #
 parser.add_argument('--numGenFilter', required=False, type=int, default=128,
-help='numberof filters in frist layer of generator')
+help='number of filters in frist layer of generator')
 parser.add_argument('--numDiscFilter',required=False, type=int, default=128)
 
 # iterations of generator and discriminator per epoch
 parser.add_argument('--genIter', required=False, type=int, default=1)
 parser.add_argument('--discIter',required=False, type=int, default=1)
 
-parser.add_argument('--epochs', type=int, default=200, help='number of train epochs')
+parser.add_argument('--epochs', type=int, default=1001, help='number of train epochs')
 
 # adam optimiser parameters
 parser.add_argument('--beta1', type=float, default=0.5, help='beta1 for Adam optimizer')
 parser.add_argument('--beta2', type=float, default=0.999, help='beta2 for Adam optimizer')
 parser.add_argument('--learningRate', type=float, default=0.0002, help='learning rate for generator, default=0.0002')
+parser.add_argument('--showImage', type=float, default=0, help='plot the figure')
 
 params = parser.parse_args()
 
@@ -75,10 +87,12 @@ def readIdx(filename):
         images = np.fromstring(f.read(), dtype=np.uint8).reshape(shape)
     return images
 
-def loadDataset(dataSet, classes, numberOfInstances, sizeOfImage, flip=True):
+def loadDataset(dataSet, classes, numberOfInstances, sizeOfImage, flip):
     '''
-    Load a particular dataset for testing GAN
+    Load a particular dataset for training/testing GAN
     '''
+    print ('Loading dataset: '+dataSet+'class: '+str(classes))
+    
     if dataSet=='MNIST':
         folder = '../data/MNIST/raw/'
     elif dataSet=='FashionMNIST':
@@ -99,9 +113,11 @@ def loadDataset(dataSet, classes, numberOfInstances, sizeOfImage, flip=True):
 
     images = data['images']
     labels = data['labels']
-
-    #print("images: {}".format(images.shape))
-    #print("labels: {}".format(labels.shape))
+    
+    # random shuffling of images and labels
+    p = np.random.permutation(images.shape[0])
+    images = images[p]
+    labels = labels[p]
 
     # get images only belonging to a particular class
     imagesByClass=images[np.where(labels==classes)]
@@ -111,58 +127,50 @@ def loadDataset(dataSet, classes, numberOfInstances, sizeOfImage, flip=True):
     imagesByClass=imagesByClass[0:numberOfInstances]
     labelsByClass=labelsByClass[0:numberOfInstances]
 
-
+    imagesByClassResize = np.zeros((imagesByClass.shape[0],
+                                    sizeOfImage,
+                                    sizeOfImage))
+    
+    # resize the images to desired size
+    for i in range(imagesByClass.shape[0]):
+        tempImage = PIL.Image.fromarray(np.uint8(imagesByClass[i,:,:]))
+        tempImage = tempImage.resize((sizeOfImage,sizeOfImage),PIL.Image.ANTIALIAS)
+        imagesByClassResize[i,:,:] = np.asarray(tempImage)
+    
+    
     # 3D to 4D vector
     imagesByClass = np.expand_dims(imagesByClass, axis=1).astype('float32')
     labelsByClass = np.expand_dims(labelsByClass, axis=1).astype('float32')
-    imagesByClass/=255.0
-
-
-    # resize images, code may be improved
-    #print (imagesByClass.shape[0], imagesByClass.shape[1])
-    imagesByClassResize = np.zeros((imagesByClass.shape[0],
-                                    imagesByClass.shape[1],
-                                    sizeOfImage,
-                                    sizeOfImage))
-
-    # resizing the image to desired size
-    for i in range(imagesByClass.shape[0]):
-        for j in range(imagesByClass.shape[1]):
-            imagesByClassResize[i,j,:,:] = transform.resize(imagesByClass[i,j,:,:],
-                                                            (sizeOfImage,
-                                                             sizeOfImage))
-    if flip == True:
+    imagesByClassResize = imagesByClassResize/255.0
+    
     #random flipping about the y-axis
+    if flip == True:
         flips = [(slice(None,None,None), slice(None,None,None),
                   slice(None,None,random.choice([-1,None]))) for _ in xrange(numberOfInstances)]
         imagesByClassResize = np.array([image[flip] for image,flip in zip(imagesByClassResize, flips)])
 
+    
     imagesByClassResize = torch.from_numpy(imagesByClassResize)
     labelsByClass = torch.from_numpy(labelsByClass)
 
-    data = torch.utils.data.TensorDataset(imagesByClassResize,
+    dataImage = torch.utils.data.TensorDataset(imagesByClassResize,
                                           labelsByClass)
-    trainLoader = torch.utils.data.DataLoader(data,
-                                              batch_size = 5,
+    trainLoader = torch.utils.data.DataLoader(dataImage,
+                                              batch_size = batchSize,
                                               shuffle = True,
                                               num_workers = 2)
     fileName = dataSet+'_'+str(classes)+'_'+str(numberOfInstances)
-
+    
     return trainLoader, fileName
 
 def weight_initialisation(objectInstance):
     className = objectInstance.__class__.__name__
-    #print (className)
     if className.find('Conv') !=-1:
         # mean and std deviation for conv/deconv layers
         objectInstance.weight.data.normal_(0.0,0.02)
     elif className.find('BatchNorm') !=-1:
         objectInstance.weight.data.normal_(1.0,0.02)
         objectInstance.bias.data.fill_(0)
-
-
-saveEpochs = [10,20,50,100,200,500,1000]
-
 
 def train(fileName, trainLoader, instances, learningRate = 0.0002,
         optimBetas=(0.5, 0.999), epochs=5):
@@ -172,15 +180,15 @@ def train(fileName, trainLoader, instances, learningRate = 0.0002,
 
     G = Generator(params.numInputChannels, params.numGenFilter,
             params.numOutputChannels)
-    D = Discriminator(params.numOutputChannels, params.numDiscFilter)
+    D = Discriminator(params.numOutputChannels,params.numDiscFilter)
 
     lossFunction = nn.BCELoss()
 
     genOptimiser = optim.Adam(G.parameters(),
-                              lr=params.learningRate,
+                              lr=learningRate,
                               betas = (0.5, 0.999))
     disOptimiser = optim.Adam(D.parameters(),
-                              lr=params.learningRate,
+                              lr=learningRate,
                               betas = (0.5, 0.999))
 
     discRealInput = torch.FloatTensor(params.batchSize,
@@ -205,7 +213,7 @@ def train(fileName, trainLoader, instances, learningRate = 0.0002,
 
     plt.figure()
 
-    if params.cuda:
+    if cuda:
         G = G.cuda()
         D = D.cuda()
 
@@ -220,8 +228,19 @@ def train(fileName, trainLoader, instances, learningRate = 0.0002,
         fixedNoise = fixedNoise.cuda()
 
     fixedNoiseVariable = Variable(fixedNoise)
+    
+    
+    if instances==10:
+        epochs = 1001
+        saveEpochs = [500,1000]
+    elif instances==100:
+        epochs = 501
+        saveEpochs = [200,500]
+    elif instances==1000:
+        epochs = 101
+        saveEpochs = [20,50,100]
 
-    for epoch in range(params.epochs):
+    for epoch in range(epochs):
         for i, data in enumerate(trainLoader, 0):
             if i>10000:
                 print ("Done 2000 Iterations")
@@ -231,19 +250,17 @@ def train(fileName, trainLoader, instances, learningRate = 0.0002,
             D.zero_grad()
             dataInstance, dataLabel = data
 
-            if params.cuda:
+            if cuda:
                 dataInstance = dataInstance.cuda()
 
             discRealInput.copy_(dataInstance)
             discRealInputVariable = Variable(discRealInput)
-
             discRealLabelVariable = Variable(discRealLabel)
 
             discRealOutput = D(discRealInputVariable)
             lossRealDisc = lossFunction(discRealOutput,
                                         discRealLabelVariable)
             lossRealDisc.backward()
-
 
             # train discriminator on fake data
             discFakeInput.normal_(0,1)
@@ -271,9 +288,9 @@ def train(fileName, trainLoader, instances, learningRate = 0.0002,
             lossGen.backward()
             genOptimiser.step()
 
-            if i==((instances/params.batchSize)-1) and epoch in saveEpochs:
+            if i==((instances/batchSize)-1) and epoch in saveEpochs :
 
-                print (epoch)
+                #print ('Completed processing '+str(instances)+'for'+str(saveEpoch)+'epochs.')
 
                 # name for model and plot file
                 folder = fileName.split('_')[0]
@@ -283,6 +300,7 @@ def train(fileName, trainLoader, instances, learningRate = 0.0002,
                 # save the model parameters in a file
                 torch.save(G.state_dict(), modelFileName)
 
+                
                 # generate samples from trained generator
                 genImage = G(fixedNoiseVariable)
                 genImage = genImage.data
@@ -290,28 +308,31 @@ def train(fileName, trainLoader, instances, learningRate = 0.0002,
                 genImage = torchvision.utils.make_grid(genImage, nrow=5)
                 genImage = genImage.permute(1,2,0)
                 genImage = genImage.numpy()
-
+                
+                #print genImage.shape
                 # plot the figure of generated samples and save
-                plt.figure()
-                plt.imshow(genImage)
+                fig = plt.figure()
+                plt.imshow(genImage, cmap='gray')
                 plt.axis('off')
+                
+                txt = 'Epoch: '+ str(epoch)
+                fig.text(.45,.05,txt)
+                if params.showImage==1:
+                    plt.show()
+                
                 plt.savefig(plotFileName, bbox_inches='tight')
                 plt.close('all')
 
-def main():
-
-    dataBase = ['FashionMNIST', 'MNIST', 'notMNIST']
-    classes = [0,1,2,3,4,5,6,7,8,9]
-    instances = [ 1000 ]
-
-    optimBetas = (params.beta1, params.beta2)
-
-    for x in dataBase:
-        for c in classes :
-            for i in instances:
-                # put an option weather to flip horizontaly
-                trainLoader, fileName = loadDataset(x, c, i, 64, flip=False)
-                train(fileName, trainLoader, i, params.learningRate, optimBetas, params.epochs)
-
+def trainSamples(dataSets, classes, instances):
+    for dataSet in dataSets:
+        for cls in classes :
+            for instance in instances:
+                trainLoader, fileName = loadDataset( dataSet, cls, instance, 64, False)
+                train(fileName, trainLoader, instance, 
+                      params.learningRate, params.optimBetas, params.epochs)
+                
 if __name__=='__main__':
-    main()
+    dataSets = ['MNIST']
+    classes = [0]
+    instances = [10]
+    trainSamples(dataSets, classes, instances)
