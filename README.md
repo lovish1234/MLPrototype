@@ -76,6 +76,13 @@ MNIST Real | MNIST Real | <img src="./Evaluate/plots/accuracy/MNIST/MNIST_real_r
 FashionMNIST Real | FashionMNIST Real| <img src="./Evaluate/plots/accuracy/FashionMNIST/FashionMNIST_real_real.png" alt="FashionMNIST" width="200px"/> 
 notMNIST Real | notMNIST Real | <img src="./Evaluate/plots/accuracy/notMNIST/notMNIST_real_real.png" alt="notMNIST" width="200px"/> 
 
+#### Visualization
+
+Train Dataset | 10 | 100 | 1000 
+:---: | :---: | :---: | :---:
+MNIST | <img src="./Visualize/embedding/scatter/images/2D/MNIST/1_7_10.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/MNIST/1_7_100.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/MNIST/1_7_1000.jpg"/>
+FashionMNIST | <img src="./Visualize/embedding/scatter/images/2D/FashionMNIST/Ankle Boot_Sneaker_10.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/FashionMNIST/Ankle Boot_Sneaker_100.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/FashionMNIST/Ankle Boot_Sneaker_1000.jpg"/>
+notMNIST | <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_10.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_100.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_1000.jpg"/>
 
 ### References 
 
