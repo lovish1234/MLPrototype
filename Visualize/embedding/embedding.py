@@ -142,37 +142,64 @@ def getClasses(dataSet):
         classNames = []
     return classNames
 
-def visualize(dataSet, classes, numOfInstances, dimension):
+def visualize(dataSet, primaryClass, numOfInstances, helperClassFlag, dimension):
     '''
     For tSNE embedding of Primary Class and Generated Images
+    If HelperClass flag is 1, plot the helper class too along with
+    primary and generated class
     '''
-        
-    realImages, realLabels = loadDataset(dataSet,classes,1000,64,False)
+    
+    # Dataset images
+    realImages, realLabels = loadDataset(dataSet,primaryClass,1000,64,False)
 
     # GAN generated images
-
-    fakeImages, fakeLabels = getFakeData(dataSet,[classes],numOfInstances)
+    fakeImages, fakeLabels = getFakeData(dataSet,[primaryClass],numOfInstances)
+    
     # concatenate image pixel and labels
     fakeLabels.fill(-1)
     images = np.vstack([realImages, fakeImages])
     labels = np.hstack([realLabels, fakeLabels])
-
-    images = np.vstack([fakeImages, realImages])
-    labels = np.hstack([fakeLabels, realLabels])
-
-    # random permutation for showing equal number of real and fake images
-    #p = np.random.permutation(images.shape[0])
-    #images = images[p]
-    #labels = labels[p]
-
+    
+    # 1000 from each class [ Primary Real, Primary Fake ]
+    noSNE = 2000
+    
+    # matplotlib figure and title
+    fig = plt.figure(figsize=(18,15))
+    className = getClasses(dataSet)
+    
+    plotTitle = dataSet + ' ' + str(className[primaryClass]) + ' '+str(numOfInstances)
+    fig.suptitle(plotTitle, fontsize=20)
+    
+    # if you want to plot the helper class too
+    if helperClassFlag==1:
+        helperClass = getHelperClass(dataSet, primaryClass)
+        if helperClass==-1:
+            print "No Helper Class defined for primary class {} of {} dataset".format(className[primaryClass], dataSet)
+            return
+        # take some real images from helper class here
+        helperImages, helperLabels = loadDataset(dataSet, helperClass, 1000, 64, False)
+        
+        # append them to the real and generated images of primary class
+        images = np.vstack([images, helperImages])
+        labels = np.hstack([labels, helperLabels])
+        
+        # 1000 from each class [ Primary Real, Primary Fake, Helper Real ]
+        noSNE = 3000
+        
+        # matplotlib figure title
+        plotTitle = dataSet + ' ' + 'Primary: ' +str(className[primaryClass]) + ' Helper: ' + str(className[helperClass]) + ' Instances: ' + str(numOfInstances)
+        fig.suptitle(plotTitle, fontsize=10)
+        
+        
+        
+    # Insert in pandas dataframe
     featCols = [ 'pixel'+str(i) for i in range(images.shape[1]) ]
     df = pd.DataFrame(images,columns=featCols)
     df['label'] = labels
 
     # applying function on one of the column of dataframe
     df['label'] = df['label'].apply(lambda i: str(i))
-    y = df['label'].values.astype('int')[:2001]
-
+    y = df['label'].values.astype('int')
 
     # size should be number of columns+1[for index]
     print 'Size of the dataframe: {}'.format(df.shape)
@@ -181,12 +208,6 @@ def visualize(dataSet, classes, numOfInstances, dimension):
     colors = ['r','g','b','c','m','y','k','crimson','purple','olive']
     labels = ['0','1','2','3','4','5','6','7','8','9']
 
-    fig = plt.figure(figsize=(18,15))
-    className = getClasses(dataSet)
-    plotTitle = dataSet + ' ' + str(className[classes]) + ' '+str(numOfInstances)
-    fig.suptitle(plotTitle, fontsize=20)
-
-    noSNE = 2000
     time_start = time.time()
 
     # 2D or 3D
@@ -208,42 +229,95 @@ def visualize(dataSet, classes, numOfInstances, dimension):
         images = images[:,::2,::2]
 
         # just something big
-        shown_images = np.array([[1., 1.]])  
-        countReal,countFake=0,0
-        for i in range(images.shape[0]):
-            dist = np.sum((tsneResults[i] - shown_images) ** 2, 1)
-            if np.min(dist) < 4:
-                # don't show points that are too close
-                continue
-            if (countReal > 45 and y[i]==classes) or (countFake> 45 and y[i]==-1):
-                # don't show points for a single class beyond a threshold
-                continue
-            shown_images = np.r_[shown_images, [tsneResults[i]]]
+        shown_images = np.array([[1., 1.]]) 
+        
+        if helperClassFlag==0:
+        
+            countReal,countFake=0,0
+            for i in range(images.shape[0]):
+                dist = np.sum((tsneResults[i] - shown_images) ** 2, 1)
+                if np.min(dist) < 4:
+                    # don't show points that are too close
+                    continue
+                if (countReal > 45 and y[i]==primaryClass) or (countFake> 45 and y[i]==-1):
+                    # don't show points for a single class beyond a threshold
+                    continue
+                shown_images = np.r_[shown_images, [tsneResults[i]]]
 
-            if y[i]==classes:
-                colorMap = plt.get_cmap('Reds')
-                countReal=countReal+1
-            elif y[i]==-1:
-                colorMap = plt.get_cmap('Greens')
-                countFake=countFake+1
-            imagebox = offsetbox.AnnotationBbox(
-                offsetbox.OffsetImage(images[i], cmap=colorMap),
-                tsneResults[i])
-            # add the offsets to the visualisation
-            ax.add_artist(imagebox)
+                if y[i]==primaryClass:
+                    colorMap = plt.get_cmap('Reds')
+                    countReal=countReal+1
+                elif y[i]==-1:
+                    colorMap = plt.get_cmap('Greens')
+                    countFake=countFake+1
+                imagebox = offsetbox.AnnotationBbox(
+                    offsetbox.OffsetImage(images[i], cmap=colorMap),
+                    tsneResults[i])
+                # add the offsets to the visualisation
+                ax.add_artist(imagebox)
+
+            for i in [primaryClass,-1]:
+                tsneResultsSelect = tsneResults[np.where(y==i)]
+                if i==primaryClass:
+                    label='Real'
+                    color='r'
+                else:
+                    label='Fake'
+                    color='g'
+                ax.scatter(tsneResultsSelect[:,0], 
+                            tsneResultsSelect[:,1], 
+                            c=color, alpha=0.3, label=label)
+            saveFile = 'scatter/images/2D/'+dataSet+'/'+str(className[primaryClass])+'_'+str(numOfInstances)+'.jpg'
+
+        elif helperClassFlag==1:
             
-        for i in [classes,-1]:
-            tsneResultsSelect = tsneResults[np.where(y==i)]
-            if i==classes:
-                label='Real'
-                color='r'
-            else:
-                label='Fake'
-                color='g'
-            ax.scatter(tsneResultsSelect[:,0], 
-                        tsneResultsSelect[:,1], 
-                        c=color, alpha=0.3, label=label)
+            countReal,countFake,countHelper=0,0,0
+
+            for i in range(images.shape[0]):
+                dist = np.sum((tsneResults[i] - shown_images) ** 2, 1)
+                if np.min(dist) < 4:
+                    # don't show points that are too close
+                    continue
+                if (countReal > 30 and y[i]==primaryClass) or (countFake > 30 and y[i]==-1) or (countHelper > 30 and y[i]==helperClass):
+                    continue
+                shown_images = np.r_[shown_images, [tsneResults[i]]]
+
+                if y[i]==primaryClass:
+                    colorMap = plt.get_cmap('Reds')
+                    countReal=countReal+1
+                elif y[i]==-1:
+                    colorMap = plt.get_cmap('Greens')
+                    countFake=countFake+1
+                elif y[i]==helperClass:
+                    colorMap = plt.get_cmap('Blues')
+                    countHelper=countHelper+1                
+
+                imagebox = offsetbox.AnnotationBbox(
+                    offsetbox.OffsetImage(images[i], cmap=colorMap),
+                    tsneResults[i])
+
+                # add the offsets to the visualisation
+                ax.add_artist(imagebox)
+
+            print countReal,countFake,countHelper
+
+            for i in [primaryClass,helperClass,-1]:
+                tsneResultsSelect = tsneResults[np.where(y==i)]
+                if i==primaryClass:
+                    label='Primary'
+                    color='r'
+                elif i==-1:
+                    label='Generated'
+                    color='g'
+                elif i==helperClass:
+                    label='Helper'
+                    color='b'
+
+                ax.scatter(tsneResultsSelect[:,0], tsneResultsSelect[:,1], c=color, alpha=0.3, label=label)
+            saveFile = 'scatter/images/2D/'+dataSet+'/'+str(className[primaryClass])+'_'+str(className[helperClass])+'_'+str(numOfInstances)+'.jpg'
+
     elif dimension==3:
+        
         ax = fig.add_subplot(111, projection='3d')
 
         tsne = TSNE(n_components=3, verbose=1, perplexity=40, n_iter=300)
@@ -255,54 +329,45 @@ def visualize(dataSet, classes, numOfInstances, dimension):
         dfTSNE['x-tsne'] = tsneResults[:,0]
         dfTSNE['y-tsne'] = tsneResults[:,1]
         dfTSNE['z-tsne'] = tsneResults[:,2]
+        
+        if helperClassFlag==0:
+        
+            for i in [primaryClass,-1]:
+                tsneResultsSelect = tsneResults[np.where(y==i)]
+                if i==primaryClass:
+                    label='Real'
+                    color='r'
+                else:
+                    label='Fake'
+                    color='g'
+                ax.scatter(tsneResultsSelect[:,0], 
+                           tsneResultsSelect[:,1], 
+                           tsneResultsSelect[:,2], 
+                           c=color, alpha=0.3, label=label)
+            saveFile = 'scatter/images/2D/'+dataSet+'/'+str(className[primaryClass])+'_'+str(numOfInstances)+'.jpg'
 
-        #ax = fig.gca(projection='3d')
+        elif helperClassFlag==1:
 
-        for i in [classes,-1]:
-            tsneResultsSelect = tsneResults[np.where(y==i)]
-            if i==classes:
-                label='Real'
-                color='r'
-            else:
-                label='Fake'
-                color='g'
-            ax.scatter(tsneResultsSelect[:,0], 
-                       tsneResultsSelect[:,1], 
-                       tsneResultsSelect[:,2], 
-                       c=color, alpha=0.3, label=label)
+            for i in [primaryClass, helperClass, -1]:
+
+                tsneResultsSelect = tsneResults[np.where(y==i)]
+                if i==primaryClass:
+                    label='Primary'
+                    color='r'
+                elif i==-1:
+                    label='Generated'
+                    color='g'
+                elif i==helperClass:
+                    label='Helper'
+                    color='b'
+                ax.scatter(tsneResultsSelect[:,0], tsneResultsSelect[:,1],tsneResultsSelect[:,2], c = color, alpha =0.3, label =label)
+                ax.set_position([0.0,0.0,0.8,0.8])
+
+            saveFile = 'scatter/images/3D/'+dataSet+'/'+str(className[primaryClass])+'_'+str(className[helperClass])+'_'+str(numOfInstances)+'.jpg'
+
 
 
     ax.legend(bbox_to_anchor=(1.10, 1), 
               loc=2, borderaxespad=0)
-    saveFile = 'scatter/images/'+str(dimension)+'D/'+dataSet+'/'+str(className[classes])+'_'+str(numOfInstances)+'.jpg'
     plt.savefig(saveFile, bbox_inches='tight')
     plt.show()
-
-def getHelperClass(dataSet, primaryClass):
-    '''
-    Get the Helper Class for a given Primary Class
-    eg. for MNIST 1, MNIST 7 is the helper class
-    '''
-    if dataSet=='MNIST':
-        helpDict = {0:-1,1:7,2:-1,3:8,4:-1,5:6,6:5,7:1,8:3,9:-1}
-    elif dataSet=='FashionMNIST':
-        helpDict = {0:-1,1:-1,2:-1,3:-1,4:-1,5:-1,6:-1,7:9,8:9,9:7}
-    elif dataSet=='notMNIST':
-        helpDict = {0:-1,1:-1,2:-1,3:-1,4:5,5:4,6:-1,7:-1,8:-1,9:-1}
-    else:
-        return -1
-    return helpDict[primaryClass]
-
-# to define the function creates a scatter plot with Helper Class
-
-if __name__=='__main__":
-
-    datasets = ['MNIST', 'FashionMNIST', 'notMNIST']
-    classes = [0,1,2,3,4,5,6,7,8,9]
-    instances = [10,100,1000]
-    
-    for d in datasets:
-        for c in classes:
-            for i in instances:
-                visualize(d,c,i,2)
-                visualize(d,c,i,3)
