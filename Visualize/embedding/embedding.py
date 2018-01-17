@@ -142,6 +142,149 @@ def getClasses(dataSet):
         classNames = []
     return classNames
 
+def getHelperClass(dataSet, primaryClass):
+    
+    if dataSet=='MNIST':
+        helpDict = {0:-1,1:7,2:-1,3:8,4:-1,5:6,6:5,7:1,8:3,9:-1}
+    elif dataSet=='FashionMNIST':
+        helpDict = {0:-1,1:-1,2:-1,3:-1,4:-1,5:-1,6:-1,7:9,8:9,9:7}
+    elif dataSet=='notMNIST':
+        helpDict = {0:-1,1:-1,2:-1,3:-1,4:5,5:4,6:-1,7:-1,8:-1,9:-1}
+    else:
+        return -1
+    return helpDict[primaryClass]
+
+def drawInteractivePlot(tsneResults, labels, dataSet, primaryClass, numOfInstances, helperClass):
+    
+    # use plotly in 3 dimensions 
+    className = getClasses(dataSet)
+    plotTitle =  dataSet + ' ' + 'Primary: ' +str(className[primaryClass]) + ' Helper: ' + str(className[helperClass]) + ' Instances: ' + str(numOfInstances)
+
+    listGraph=[]
+    for i in [primaryClass, helperClass, -1]:
+
+        tsneResultsSelect = tsneResults[np.where(labels==i)]
+
+        # plotly 
+        x,y,z = tsneResultsSelect[:,0], tsneResultsSelect[:,1],tsneResultsSelect[:,2]
+
+        if i==primaryClass:
+            color = 'r'
+            label = 'Primary Class Real '+ str(className[primaryClass])
+            trace = go.Scatter3d(
+            x=x,
+            y=y,
+            z=z,
+            name = 'Primary Class Real '+ str(className[primaryClass]),
+            mode='markers',
+            marker=dict(
+                size=12,
+                line=dict(
+                    color='rgba(217, 217, 217, 0.14)',
+                    width=0.5
+                ),
+                opacity=0.8
+            )
+            )
+        elif i==helperClass:
+            color = 'b'
+            label = 'Helper Class Real '+ str(className[helperClass])
+            trace = go.Scatter3d(
+            x=x,
+            y=y,
+            z=z,
+            name = 'Helper Class Real '+ str(className[helperClass]),
+            mode='markers',
+            marker=dict(
+                size=12,
+                line=dict(
+                    color='rgba(217, 217, 217, 0.14)',
+                    width=0.5
+                ),
+                opacity=0.8
+            )
+            )
+        else:
+            color = 'g'
+            label = 'Primary Class Fake '+ str(className[primaryClass])
+            trace = go.Scatter3d(
+            x=x,
+            y=y,
+            z=z,
+            name = 'Primary Class Fake '+ str(className[primaryClass]),
+            mode='markers',
+            marker=dict(
+                size=12,
+                line=dict(
+                    color='rgba(217, 217, 217, 0.14)',
+                    width=0.5
+                ),
+                opacity=0.8
+            )
+            )
+
+        listGraph.append(trace)
+
+
+    # plotly layout
+    data = listGraph
+    layout = go.Layout(
+        annotations=[
+        dict(
+            x=0.5,
+            y=1,
+            z=1,
+            xref='x',
+            yref='y',
+            text=plotTitle,
+            showarrow=False,
+            font=dict(
+                #family='Courier New, monospace',
+                size=16,
+                color='#ffffff'
+            ),
+            align='center',
+            bgcolor='#000000'
+
+        )],        
+        margin=dict(
+            l=0,
+            r=0,
+            b=0,
+            t=-1
+        )
+    )
+
+    py.offline.init_notebook_mode(connected=True)
+    fig = go.Figure(data=data, layout=layout)
+    py.offline.iplot(fig, filename='simple-3d-scatter')
+    
+    htmlBody = py.offline.plot(fig, include_plotlyjs=False, output_type='div')
+    htmlBody.encode('ascii','ignore')
+
+    htmlHeader = '''
+    <html>
+        <head>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+            <style>body{ margin:0 100; background:whitesmoke; }</style>
+            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        </head>
+        <body>
+            <h1> tSNE Plots for'''+ dataSet+''' Primary Class '''+className[primaryClass]+''' and Helper Class '''+className[helperClass]+'' 'Instances '''+str(numOfInstances)+'''</h1>
+    '''
+    
+    htmlFooter = '''
+    </body>
+    </html>
+    '''
+
+    htmlString = htmlHeader + htmlBody + htmlFooter
+    plotFileName = 'scatter/html/'+dataSet+'/'+str(className[primaryClass])+'_'+str(className[helperClass])+'_'+str(numOfInstances)+'.html'
+    print plotFileName
+    f = open(plotFileName,'w')
+    f.write(htmlString)
+    f.close()
+
 def visualize(dataSet, primaryClass, numOfInstances, helperClassFlag, dimension):
     '''
     For tSNE embedding of Primary Class and Generated Images
@@ -364,10 +507,28 @@ def visualize(dataSet, primaryClass, numOfInstances, helperClassFlag, dimension)
                 ax.set_position([0.0,0.0,0.8,0.8])
 
             saveFile = 'scatter/images/3D/'+dataSet+'/'+str(className[primaryClass])+'_'+str(className[helperClass])+'_'+str(numOfInstances)+'.jpg'
-
+            drawInteractivePlot(tsneResults, y, dataSet, primaryClass, numOfInstances, helperClass)
 
 
     ax.legend(bbox_to_anchor=(1.10, 1), 
               loc=2, borderaxespad=0)
     plt.savefig(saveFile, bbox_inches='tight')
     plt.show()
+    
+if __name__=='__main__':
+    dataSets = ['MNIST', 'FashionMNIST', 'notMNIST']
+    instances = [10,100,1000]
+    classes = [0,1,2,3,4,5,6,7,8,9]
+    dimensions = [2,3]
+    
+    for d in dataSets:
+        for i in instances:
+            for c in classes:
+                for x in dimensions:
+                    # visualize without helper class
+                    visualize(d, c, i, 0, x)
+                    
+                    # visualize with helper class
+                    visualize(d, c, i, 1, x)
+                    
+    
