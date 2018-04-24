@@ -92,7 +92,12 @@ notMNIST | <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_10.jpg
 - GAN [Tutorial](https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/02-intermediate/generative_adversarial_network/main.py)
 - CycleGAN [Implementation](https://github.com/togheppi/CycleGAN)
 
+### TODO
 
+- Add classification results for DCGAN with/without MMD 
+- DCGAN with MMD [ Learning from all classes of same dataset ]
+- MMD Comparison [ Cross and within domain ]
+- Batches with max and min MMD
 
 
 
