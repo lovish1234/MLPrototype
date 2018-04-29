@@ -94,11 +94,11 @@ notMNIST | <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_10.jpg
 
 ### TODO
 
-- Add classification results for DCGAN with/without MMD 
-- DCGAN with MMD [ Learning from all classes of same dataset ]
-- MMD Comparison [ Cross and within domain ]
-- Batches with max and min MMD
-
+- [ ] Add classification results for DCGAN with/without MMD 
+- [x] DCGAN with MMD [ Learning from all classes of same dataset ]
+- [ ] MMD Comparison [ Cross and within domain ]
+- [ ] Batches with max and min MMD
+- [ ] Update .py files [presently in .ipynb format]
 
 
 
