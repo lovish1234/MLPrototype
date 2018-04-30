@@ -83,14 +83,32 @@ MNIST | <img src="./Visualize/embedding/scatter/images/2D/MNIST/1_7_10.jpg"/> | 
 FashionMNIST | <img src="./Visualize/embedding/scatter/images/2D/FashionMNIST/Ankle Boot_Sneaker_10.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/FashionMNIST/Ankle Boot_Sneaker_100.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/FashionMNIST/Ankle Boot_Sneaker_1000.jpg"/>
 notMNIST | <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_10.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_100.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_1000.jpg"/>
 
+### Class/Domain distance
+
+
+#### Within-domain distance 
+
+MNIST | <img src="./DCGAN/mmdValues/MNIST/MNIST_0_MNIST_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_1_MNIST_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_2_MNIST_128.png"/> 
+FashionMNIST | <img src="./DCGAN/mmdValues/FashionMNIST/FashionMNIST_0_FashionMNIST_128.png"/> | <img src="./DCGAN/mmdValues/FashionMNIST/FashionMNIST_4_FashionMNIST_128.png"/> | <img src="./DCGAN/mmdValues/FashionMNIST/FashionMNIST_2_FashionMNIST_128.png"/> 
+CIFAR | <img src="./DCGAN/mmdValues/CIFAR/CIFAR_0_CIFAR_128.png"/> | <img src="./DCGAN/mmdValues/CIFAR/CIFAR_2_CIFAR_128.png"/> | <img src="./DCGAN/mmdValues/CIFAR/CIFAR_9_CIFAR_128.png"/> 
+
+#### Cross-domain distance
+
+[MNIST]-[SVHN-BW]  | <img src="./DCGAN/mmdValues/MNIST/MNIST_0_SVHN-BW_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_1_SVHN-BW_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_2_SVHN-BW_128.png"/> 
+[MNIST]-[USPS]  | <img src="./DCGAN/mmdValues/MNIST/MNIST_0_USPS_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_1_USPS_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_2_USPS_128.png"/> 
+
 ## Usage
 
-- Execute the conditional DC-GAN with `python cDCGAN_train.py`. This would create 4 directories within `DCGAN`
+- Execute the conditional DC-GAN with `python cDCGAN_train.py`. This would create 4 directories within `DCGAN` folder
 	- `DCGAN/animation` containing gif of generated images after every epoch
 	- `DCGAN/loss` containing loss values for both generator and discriminator vs. epochs
 	- `DCGAN/plots` containing a png file with generated images after last epoch
 	- `DCGAN/models` containing model file with discriminator and generator weights in pytorch format
 
+- Execute the Maximum Mean Discrepancy comparison with `python MMD_WD.py`. This would create 1 directory withing `DCGAN` folder
+	- `DCGAN/mmdValues` containing histograms of average MMD values vs. Classes for a single domain (dataset)
+- Execute the MMD comparison with `python MMD_CD.py`. This would create 1 directory within `DCGAN` folder
+	- `DCGAN/mmdValues` containing histograms of average MMD values vs. Classes for two different domains (datasets)
 ### References 
 
 - [MNIST](http://yann.lecun.com/exdb/mnist/)
