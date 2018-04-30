@@ -64,17 +64,6 @@ MNIST Real | MNIST Real | <img src="./Evaluate/plots/cm/MNIST/MNIST_real_10.png"
 FashionMNIST Real | FashionMNIST Real | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_real_10.png" alt="FashionMNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_real_100.png" alt="FashionMNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/FashionMNIST/FashionMNIST_real_1000.png" alt="FashionMNIST 1000 instances" width="200px"/>
 notMNIST Real | notMNIST Real | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_real_10.png" alt="notMNIST 10 instances" width="200px"/> | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_real_100.png" alt="notMNIST 100 instances" width="200px"/> | <img src="./Evaluate/plots/cm/notMNIST/notMNIST_real_1000.png" alt="notMNIST 100 instances" width="200px"/>
 
-#### Accuracy 
-
-Train Dataset | Test Dataset | Accuracy
-:---: | :---: | :---:
-MNIST GAN | MNIST Real | <img src="./Evaluate/plots/accuracy/MNIST/MNIST_fake_real.png" alt="MNIST" width="200px"/>
-FashionMNIST GAN  | FashionMNIST Real | <img src="./Evaluate/plots/accuracy/FashionMNIST/FashionMNIST_fake_real.png" alt="FashionMNIST" width="200px"/> 
-notMNIST GAN  | notMNIST Real | <img src="./Evaluate/plots/accuracy/notMNIST/notMNIST_fake_real.png" alt="notMNIST" width="200px"/> 
-MNIST Real | MNIST Real | <img src="./Evaluate/plots/accuracy/MNIST/MNIST_real_real.png" alt="MNIST" width="200px"/>
-FashionMNIST Real | FashionMNIST Real| <img src="./Evaluate/plots/accuracy/FashionMNIST/FashionMNIST_real_real.png" alt="FashionMNIST" width="200px"/> 
-notMNIST Real | notMNIST Real | <img src="./Evaluate/plots/accuracy/notMNIST/notMNIST_real_real.png" alt="notMNIST" width="200px"/> 
-
 #### Visualization
 
 Train Dataset | 10 | 100 | 1000 
@@ -130,28 +119,37 @@ MNIST | USPS  | <img src="./DCGAN/mmdValues/MNIST/MNIST_0_USPS_128.png"/> | <img
 	- Helper class is another fixed class within the same domain
 	- Results in `Evaluate/MMD`
 
-:---: | :---: | :---: | :---: 
 MNIST | F-MNIST | CIFAR | SVHN
-<img src="./Evaluate/MMD/plots/accuracy/MNIST/MNIST_rbf.png"/> |  <img src="./Evaluate/MMD/plots/accuracy/FashionMNIST/FashionMNIST_rbf.png"/> |  <img src="./Evaluate/MMD/plots/accuracy/CIFAR/CIFAR_rbf.png"/> |  <img src="./Evaluate/MMD/plots/accuracy/SVHN/SVHN_rbf.png"/>  
+:---: | :---: | :---: | :---: 
+<img src="./Evaluate/plots/MMD/accuracy/MNIST/MNIST_rbf.png"/> |  <img src="./Evaluate/plots/MMD/accuracy/FashionMNIST/FashionMNIST_rbf.png"/> |  <img src="./Evaluate/plots/MMD/accuracy/CIFAR/CIFAR_rbf.png"/> |  <img src="./Evaluate/plots/MMD/accuracy/SVHN/SVHN_rbf.png"/>  
 
 
 - Execute `Evaluate/classify_CD.py`
 	- Primary class is a single class within a domain say MNIST
 	- Helper class is another class in a different helper domain say SVHN
 	- Results in `Evaulate/crossDomainMMD`
-<img src="./Evaluate/MMDall/plots/accuracy/MNIST/MNIST_rbf.png"/> |  <img src="./Evaluate/MMDall/plots/accuracy/FashionMNIST/FashionMNIST_rbf.png"/> |  <img src="./Evaluate/MMDall/plots/accuracy/CIFAR/CIFAR_rbf.png"/> |  <img src="./Evaluate/MMDall/plots/accuracy/SVHN/SVHN_rbf.png"/> 
+
+MNIST | F-MNIST | CIFAR | SVHN
+:---: | :---: | :---: | :---: 
+<img src="./Evaluate/plots/MMDall/accuracy/MNIST/MNIST_rbf.png"/> |  <img src="./Evaluate/plots/MMDall/accuracy/FashionMNIST/FashionMNIST_rbf.png"/> |  <img src="./Evaluate/plots/MMDall/accuracy/CIFAR/CIFAR_rbf.png"/> |  <img src="./Evaluate/plots/MMDall/accuracy/SVHN/SVHN_rbf.png"/> 
 
 - Execute `Evaluate/classify_all.py`
 	- Primary class is  a single class within a domain say MNIST
 	- Helper class are all the classes except the primary class  withing same domain
 	- Results in `Evaulate/MMDall`
-<img src="./Evaluate/crossDomainMMD/plots/accuracy/MNIST/MNIST_rbf.png"/> |  <img src="./Evaluate/crossDomainMMD/plots/accuracy/FashionMNIST/FashionMNIST_rbf.png"/> |  <img src="./Evaluate/crossDomainMMD/plots/accuracy/CIFAR/CIFAR_rbf.png"/> |  <img src="./Evaluate/crossDomainMMD/plots/accuracy/SVHN/SVHN_rbf.png"/> 
+
+MNIST | F-MNIST | CIFAR | SVHN
+:---: | :---: | :---: | :---: 
+<img src="./Evaluate/plots/crossDomainMMD/accuracy/MNIST/MNIST_rbf.png"/> |  <img src="./Evaluate/plots/crossDomainMMD/accuracy/FashionMNIST/FashionMNIST_rbf.png"/> |  <img src="./Evaluate/plots/crossDomainMMD/accuracy/CIFAR/CIFAR_rbf.png"/> |  <img src="./Evaluate/plots/crossDomainMMD/accuracy/SVHN/SVHN_rbf.png"/> 
 
 - Execute `Evaluate/classify_all_CD.py`
 	- Primary class is a single class withing a domain say MNIST
 	- Helper classes are all the classes in a different helper domain say SVHN
 	- Results in `Evaulate/crossDomainMMDall`
-<img src="./Evaluate/crossDomainMMDall/plots/accuracy/MNIST/MNIST_rbf.png"/> |  <img src="./Evaluate/crossDomainMMDall/plots/accuracy/FashionMNIST/FashionMNIST_rbf.png"/> |  <img src="./Evaluate/crossDomainMMDall/plots/accuracy/CIFAR/CIFAR_rbf.png"/> |  <img src="./Evaluate/crossDomainMMDall/plots/accuracy/SVHN/SVHN_rbf.png"/>
+
+MNIST | F-MNIST | CIFAR | SVHN
+:---: | :---: | :---: | :---: 
+<img src="./Evaluate/plots/crossDomainMMDall/accuracy/MNIST/MNIST_rbf.png"/> |  <img src="./Evaluate/plots/crossDomainMMDall/accuracy/FashionMNIST/FashionMNIST_rbf.png"/> |  <img src="./Evaluate/plots/crossDomainMMDall/accuracy/CIFAR/CIFAR_rbf.png"/> |  <img src="./Evaluate/plots/crossDomainMMDall/accuracy/SVHN/SVHN_rbf.png"/>
 
 ### References 
 
