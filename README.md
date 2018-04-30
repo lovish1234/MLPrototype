@@ -88,14 +88,18 @@ notMNIST | <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_10.jpg
 
 #### Within-domain distance 
 
+Dataset| Ex1 | Ex2 | Ex3
+:---: | :---: | :---: | :---:
 MNIST | <img src="./DCGAN/mmdValues/MNIST/MNIST_0_MNIST_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_1_MNIST_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_2_MNIST_128.png"/> 
 FashionMNIST | <img src="./DCGAN/mmdValues/FashionMNIST/FashionMNIST_0_FashionMNIST_128.png"/> | <img src="./DCGAN/mmdValues/FashionMNIST/FashionMNIST_4_FashionMNIST_128.png"/> | <img src="./DCGAN/mmdValues/FashionMNIST/FashionMNIST_2_FashionMNIST_128.png"/> 
 CIFAR | <img src="./DCGAN/mmdValues/CIFAR/CIFAR_0_CIFAR_128.png"/> | <img src="./DCGAN/mmdValues/CIFAR/CIFAR_2_CIFAR_128.png"/> | <img src="./DCGAN/mmdValues/CIFAR/CIFAR_9_CIFAR_128.png"/> 
 
 #### Cross-domain distance
 
-[MNIST]-[SVHN-BW]  | <img src="./DCGAN/mmdValues/MNIST/MNIST_0_SVHN-BW_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_1_SVHN-BW_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_2_SVHN-BW_128.png"/> 
-[MNIST]-[USPS]  | <img src="./DCGAN/mmdValues/MNIST/MNIST_0_USPS_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_1_USPS_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_2_USPS_128.png"/> 
+Primary Domain | Helper Domain | Ex1 | Ex2 | Ex3 
+:---: | :---: | :---: | :---:
+MNIST | SVHN-BW  | <img src="./DCGAN/mmdValues/MNIST/MNIST_0_SVHN-BW_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_1_SVHN-BW_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_2_SVHN-BW_128.png"/> 
+MNIST | USPS  | <img src="./DCGAN/mmdValues/MNIST/MNIST_0_USPS_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_1_USPS_128.png"/> | <img src="./DCGAN/mmdValues/MNIST/MNIST_2_USPS_128.png"/> 
 
 ## Usage
 
