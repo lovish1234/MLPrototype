@@ -92,13 +92,32 @@ MNIST | USPS  | <img src="./DCGAN/mmdValues/MNIST/MNIST_0_USPS_128.png"/> | <img
 
 ## Usage
 
-#### Generating examples in Regular and Few-Shot Scenarios
+#### Generating examples in Regular and Few-Shot Scenarios ( Training )
 
 - Execute the conditional DC-GAN with `python cDCGAN_train.py`. This would create 4 directories within `DCGAN` folder
 	- `DCGAN/animation` containing gif of generated images after every epoch
 	- `DCGAN/loss` containing loss values for both generator and discriminator vs. epochs
 	- `DCGAN/plots` containing a png file with generated images after last epoch
 	- `DCGAN/models` containing model file with discriminator and generator weights in pytorch format
+	- Below example with MNIST. [0,1,2] are few shot classes
+
+##### Animation 
+
+Dataset | 5000/1000 | 1000/100
+:---: | :---: | :---:
+MNIST | <img src="./DCGAN/animation/nonMMD/MNIST/MNIST_[0, 1, 2]_5000_1000_60.gif"/> |  <img src="./DCGAN/animation/nonMMD/MNIST/MNIST_[0, 1, 2]_1000_100_60.gif"/> 
+SVHN | <img src="./DCGAN/animation/nonMMD/SVHN/SVHN_[0, 1, 2]_5000_1000_60.gif"/> |  <img src="./DCGAN/animation/nonMMD/SVHN/SVHN_[0, 1, 2]_1000_100_60.gif"/> 
+
+##### Loss
+
+Dataset | 5000/1000 | 1000/100
+:---: | :---: | :---:
+MNIST | <img src="./DCGAN/loss/nonMMD/MNIST/MNIST_[0, 1, 2]_5000_1000_59.png"/> |  <img src="./DCGAN/loss/nonMMD/MNIST/MNIST_[0, 1, 2]_1000_100_59.png"/> 
+SVHN | <img src="./DCGAN/loss/nonMMD/SVHN/SVHN_[0, 1, 2]_5000_1000_59.png"/> |  <img src="./DCGAN/loss/nonMMD/SVHN/SVHN_[0, 1, 2]_1000_100_59.png"/> 
+
+
+#### Generating examples in Regular and Few-Shot Scenarios ( Testing )
+	- TBC
 
 #### Computing Domain Distance 
 
@@ -161,11 +180,11 @@ MNIST | F-MNIST | CIFAR | SVHN
 
 ### TODO
 
-- [ ] Add classification results for DCGAN with/without MMD 
+- [x] Add classification results for DCGAN with/without MMD 
 - [x] DCGAN with MMD [ Learning from all classes of same dataset ]
-- [ ] MMD Comparison [ Cross and within domain ]
+- [x] MMD Comparison [ Cross and within domain ]
 - [ ] Batches with max and min MMD
 - [ ] Update .py files [presently in .ipynb format]
-
+- [ ] Sample generation in differnet directory from classificaiton
 
 
