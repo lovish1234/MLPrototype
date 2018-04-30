@@ -1,5 +1,4 @@
-## Experiments concering Unpaired Image to Image Translation with Limited Data
-Simple prototypes of common ML concepts
+## Using Domain Adaptation for Few Shot Generative Modeling 
 
 ### Effect of Number of Instances on DC-GAN
 
@@ -83,6 +82,14 @@ Train Dataset | 10 | 100 | 1000
 MNIST | <img src="./Visualize/embedding/scatter/images/2D/MNIST/1_7_10.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/MNIST/1_7_100.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/MNIST/1_7_1000.jpg"/>
 FashionMNIST | <img src="./Visualize/embedding/scatter/images/2D/FashionMNIST/Ankle Boot_Sneaker_10.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/FashionMNIST/Ankle Boot_Sneaker_100.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/FashionMNIST/Ankle Boot_Sneaker_1000.jpg"/>
 notMNIST | <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_10.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_100.jpg"/> |  <img src="./Visualize/embedding/scatter/images/2D/notMNIST/E_F_1000.jpg"/>
+
+## Usage
+
+- Execute the conditional DC-GAN with `python cDCGAN_train.py`. This would create 4 directories within `DCGAN`
+	- `DCGAN/animation` containing gif of generated images after every epoch
+	- `DCGAN/loss` containing loss values for both generator and discriminator vs. epochs
+	- `DCGAN/plots` containing a png file with generated images after last epoch
+	- `DCGAN/models` containing model file with discriminator and generator weights in pytorch format
 
 ### References 
 
