@@ -177,6 +177,7 @@ MNIST | F-MNIST | CIFAR | SVHN
 - [notMNIST](https://github.com/davidflanagan/notMNIST-to-MNIST) dataset
 - GAN [Tutorial](https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/02-intermediate/generative_adversarial_network/main.py)
 - CycleGAN [Implementation](https://github.com/togheppi/CycleGAN)
+- Siamese/Triplet Loss [Implementation](https://github.com/adambielski/siamese-triplet)
 
 ### TODO
 
