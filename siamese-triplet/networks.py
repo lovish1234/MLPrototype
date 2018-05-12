@@ -26,6 +26,27 @@ class EmbeddingNet(nn.Module):
 
     def get_embedding(self, x):
         return self.forward(x)
+    
+ 
+class LeNet(nn.Module):
+    def __init__(self, noInputChannels):
+        super(LeNet, self).__init__()
+        self.convnet = nn.Sequential(nn.Conv2d(noInputChannels, 6, 5), nn.ReLU(),
+                                     nn.MaxPool2d(2),
+                                     nn.Conv2d(6, 16, 5), nn.ReLU(),
+                                     nn.MaxPool2d(2))
+        self.fc = nn.Sequential(nn.Linear(16*5*5,120), nn.ReLU(),
+                                nn.Linear(120,84), nn.ReLU())
+    def forward(self, x):
+        
+        output = self.convnet(x)
+        output = output.view(output.size()[0],-1)
+        output = self.fc(output)
+        return output
+    
+    def get_embedding(self, x):
+        return self.forward(x)
+    
 
 
     
@@ -70,6 +91,11 @@ class SiameseNet(nn.Module):
 
     def forward(self, x1, x2):
         
+        
+        output1 = self.embedding_net_1(x1)
+        output2 = self.embedding_net_2(x2)
+        
+        '''
         if x1.data.shape[1]==1:
             output1 = self.embedding_net_1(x1)
         else:
@@ -79,15 +105,23 @@ class SiameseNet(nn.Module):
             output2 = self.embedding_net_1(x2)
         else:
             output2 = self.embedding_net_2(x2)
-            
+        '''
+        
         return output1, output2
 
-    def get_embedding(self, x):
+    def get_embedding(self, x, domain='primary'):
+        
+        if domain=='primary':
+            return self.embedding_net_1(x)
+        else:
+            return self.embedding_net_2(x)
+        
+        '''
         if x.data.shape[1]==1:
             return self.embedding_net_1(x)
         else:
             return self.embedding_net_2(x)
-
+        '''
 
 class TripletNet(nn.Module):
     def __init__(self, embedding_net_1, embedding_net_2):
@@ -98,6 +132,11 @@ class TripletNet(nn.Module):
     def forward(self, x1, x2, x3):
 
         
+        output1 = self.embedding_net_1(x1)
+        output2 = self.embedding_net_2(x2)
+        output3 = self.embedding_net_2(x3)
+        
+        '''
         if x1.data.shape[1]==1:
             output1 = self.embedding_net_1(x1)
         else:
@@ -112,11 +151,20 @@ class TripletNet(nn.Module):
             output3 = self.embedding_net_1(x3)
         else:
             output3 = self.embedding_net_2(x3)
-                
+        '''
+        
         return output1, output2, output3
 
-    def get_embedding(self, x):
+    def get_embedding(self, x, domain='primary'):
+        
+        if domain=='primary':
+            return self.embedding_net_1(x)
+        else:
+            return self.embedding_net_2(x)
+        
+        '''
         if x.data.shape[1]==1:
             return self.embedding_net_1(x)
         else:
             return self.embedding_net_2(x)
+        '''
