@@ -2,6 +2,35 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # changed this function
+
+class EmbeddingNet(nn.Module):
+    def __init__(self, noInputChannels):
+        super(EmbeddingNet, self).__init__()
+        self.convnet = nn.Sequential(nn.Conv2d(noInputChannels, 32, 5), nn.PReLU(),
+                                     nn.MaxPool2d(2, stride=2),
+                                     nn.Conv2d(32, 64, 5), nn.PReLU(),
+                                     nn.MaxPool2d(2, stride=2))
+
+        self.fc = nn.Sequential(nn.Linear(64 * 5 * 5, 256),
+                                nn.PReLU(),
+                                nn.Linear(256, 256),
+                                nn.PReLU(),
+                                nn.Linear(256,8)
+                                )
+
+    def forward(self, x):
+        
+        output = self.convnet(x)
+        output = output.view(output.size()[0], -1)
+        output = self.fc(output)
+        return output
+
+    def get_embedding(self, x):
+        return self.forward(x)
+    
+    
+
+'''
 class EmbeddingNet(nn.Module):
     def __init__(self, noInputChannels):
         super(EmbeddingNet, self).__init__()
@@ -26,23 +55,36 @@ class EmbeddingNet(nn.Module):
 
     def get_embedding(self, x):
         return self.forward(x)
-    
+'''
  
 class LeNet(nn.Module):
     def __init__(self, noInputChannels):
         super(LeNet, self).__init__()
+        
+        self.layer1 = nn.Conv2d(noInputChannels, 6, 5, bias=False)
+        self.layer2 = nn.MaxPool2d(2)
+        self.layer3 = nn.Conv2d(6, 16, 5, bias=False)
+        self.layer4 = nn.MaxPool2d(2)
+        
+        '''
         self.convnet = nn.Sequential(nn.Conv2d(noInputChannels, 6, 5), nn.ReLU(),
                                      nn.MaxPool2d(2),
                                      nn.Conv2d(6, 16, 5), nn.ReLU(),
                                      nn.MaxPool2d(2))
+                                     
         self.fc = nn.Sequential(nn.Linear(16*5*5,120), nn.ReLU(),
-                                nn.Linear(120,84)) 
+                                #nn.Linear(120,84))
+        '''
+        
     def forward(self, x):
         
-        output = self.convnet(x)
-        output = output.view(output.size()[0],-1)
-        output = self.fc(output)
-        return output
+        x = F.relu(self.layer1(x))
+        x = self.layer2(x)
+        x = F.relu(self.layer3(x))
+        x = self.layer4(x)
+        x = x.view(x.size()[0],-1)
+        #output = self.fc(output)
+        return x
     
     def get_embedding(self, x):
         return self.forward(x)
