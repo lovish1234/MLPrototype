@@ -15,7 +15,7 @@ class EmbeddingNet(nn.Module):
                                 nn.PReLU(),
                                 nn.Linear(256, 256),
                                 nn.PReLU(),
-                                nn.Linear(256,8)
+                                nn.Linear(256,2)
                                 )
 
     def forward(self, x):
@@ -78,7 +78,10 @@ class LeNet(nn.Module):
         
     def forward(self, x):
         
+        #print x.shape
         x = F.relu(self.layer1(x))
+        #print x.shape
+        
         x = self.layer2(x)
         x = F.relu(self.layer3(x))
         x = self.layer4(x)

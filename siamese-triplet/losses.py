@@ -50,6 +50,7 @@ class OnlineContrastiveLoss(nn.Module):
         self.margin = margin
         self.pair_selector = pair_selector
 
+    # two embeddings in case both the networks are different
     def forward(self, embeddings, target):
         positive_pairs, negative_pairs = self.pair_selector.get_pairs(embeddings, target)
         if embeddings.is_cuda:
@@ -61,11 +62,45 @@ class OnlineContrastiveLoss(nn.Module):
                 1).sqrt()).pow(2)
         loss = torch.cat([positive_loss, negative_loss], dim=0)
         return loss.mean()
+    
+    
+class OnlineContrastiveLoss2(nn.Module):
+    """
+    Online Contrastive loss for primary and helper domain
+    
+    Takes a batch of embeddings and corresponding labels.
+    Pairs are generated using pair_selector object that take embeddings and targets and return indices of positive
+    and negative pairs
+    """
+
+    def __init__(self, margin, pair_selector):
+        super(OnlineContrastiveLoss2, self).__init__()
+        self.margin = margin
+        self.pair_selector = pair_selector
+
+    # two embeddings in case both the networks are different
+    def forward(self, embeddingsPrimary, targetPrimary, embeddingsHelper, targetHelper):
+        
+        positive_pairs, negative_pairs = self.pair_selector.get_pairs(embeddingsPrimary, targetPrimary, embeddingsHelper, targetHelper )
+        
+        if embeddingsPrimary.is_cuda:
+            positive_pairs = positive_pairs.cuda()
+            negative_pairs = negative_pairs.cuda()
+            
+        positive_loss = (embeddingsPrimary[positive_pairs[:, 0]] - embeddingsHelper[positive_pairs[:, 1]]).pow(2).sum(1)
+        negative_loss = F.relu(
+            self.margin - (embeddingsPrimary[negative_pairs[:, 0]] - embeddingsHelper[negative_pairs[:, 1]]).pow(2).sum(
+                1).sqrt()).pow(2)
+        loss = torch.cat([positive_loss, negative_loss], dim=0)
+        return loss.mean()
+    
+    
 
 
 class OnlineTripletLoss(nn.Module):
     """
     Online Triplets loss
+    
     Takes a batch of embeddings and corresponding labels.
     Triplets are generated using triplet_selector object that take embeddings and targets and return indices of
     triplets
@@ -75,7 +110,8 @@ class OnlineTripletLoss(nn.Module):
         super(OnlineTripletLoss, self).__init__()
         self.margin = margin
         self.triplet_selector = triplet_selector
-
+    
+    # two embeddings in case both the dataset are different
     def forward(self, embeddings, target):
 
         triplets = self.triplet_selector.get_triplets(embeddings, target)
@@ -88,3 +124,36 @@ class OnlineTripletLoss(nn.Module):
         losses = F.relu(ap_distances - an_distances + self.margin)
 
         return losses.mean(), len(triplets)
+
+    
+
+class OnlineTripletLoss2(nn.Module):
+    """
+    Online Triplets loss for primary and helper domain.
+    
+    Takes a batch of embeddings and corresponding labels.
+    Triplets are generated using triplet_selector object that take embeddings and targets and return indices of
+    triplets
+    """
+
+    def __init__(self, margin, triplet_selector):
+        super(OnlineTripletLoss2, self).__init__()
+        self.margin = margin
+        self.triplet_selector = triplet_selector
+    
+    # two embeddings in case both the dataset are different
+    def forward(self, embeddingsPrimary, targetPrimary, embeddingsHelper, targetHelper):
+
+        triplets = self.triplet_selector.get_triplets(embeddingsPrimary, targetPrimary, embeddingsHelper, targetHelper)
+
+        
+        if embeddingsPrimary.is_cuda:
+            triplets = triplets.cuda()
+
+        ap_distances = (embeddingsPrimary[triplets[:, 0]] - embeddingsHelper[triplets[:, 1]]).pow(2).sum(1)  # .pow(.5)
+        an_distances = (embeddingsPrimary[triplets[:, 0]] - embeddingsHelper[triplets[:, 2]]).pow(2).sum(1)  # .pow(.5)
+        losses = F.relu(ap_distances - an_distances + self.margin)
+
+        return losses.mean(), len(triplets)
+    
+    
